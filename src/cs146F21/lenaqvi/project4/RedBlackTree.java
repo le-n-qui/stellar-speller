@@ -3,7 +3,7 @@ package cs146F21.lenaqvi.project4;
 public class RedBlackTree {	
 	private RedBlackTree.Node root;
     
-	public static class Node {
+	public class Node {
 		
 		String key;  		  
 	  	Node parent;
