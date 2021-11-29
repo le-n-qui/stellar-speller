@@ -18,8 +18,8 @@ public class RedBlackTree {
 	  		rightChild = null;
 	  	}		
 	  
-	  	public int compareTo(Node n){ 	//this < that  <0
-	  		return key.compareTo(n.key);  	//this > that  >0
+	  	public int compareTo(Node n) { 		//this < that  < 0
+	  		return key.compareTo(n.key);  	//this > that  > 0
 	  	}
 	  
 	  	public boolean isLeaf(){
@@ -69,37 +69,74 @@ public class RedBlackTree {
 	
 	// place a new node in the RB tree with data the parameter and color it red. 
 	public void addNode(String data){  	//this < that  <0.  this > that  >0
-	 //	fill
-		
+	// creates a RBT Node w/ specified data
+	 RedBlackTree.Node newNode = new RedBlackTree.Node(data);
+
+	 if (root == null) {
+	 	root = newNode;
+	 	newNode.parent = null;
+	 	newNode.isRed = false;
+	 	newNode.color = 1; //assuming '1' is black
+	 }
+	 else {
+
+	 	newNode.color = 0;
+	 	newNode.isRed = true;
+	 	//start iteration from the root
+	 	RedBlackTree.Node curr = root;
+
+	 	while(curr != null) {
+
+	 		if (newNode.compareTo(curr) > 0) {
+	 			if (curr.rightChild == null) {
+					curr.rightChild = newNode;
+					newNode.parent = curr;
+					break;
+				}
+	 			else
+	 				curr = curr.rightChild;
+			}
+			if (newNode.compareTo(curr) < 0) {
+				if (curr.leftChild == null) {
+					curr.leftChild = newNode;
+					newNode.parent = curr;
+					break;
+				}
+				else
+					curr = curr.leftChild;
+			}
+		}
+	 }
+	 //this is where we call fixtree
 	}	
 
-	public void insert(String data){
+	public void insert(String data) {
 		addNode(data);	
 	}
 	
-	public RedBlackTree.Node lookup(String k){ 
+	public RedBlackTree.Node lookup(String k) {
 		//fill
 	}
  	
 	
-	public RedBlackTree.Node getSibling(RedBlackTree.Node n){  
+	public RedBlackTree.Node getSibling(RedBlackTree.Node n) {
 		//
 	}
 	
 	
-	public RedBlackTree.Node getAunt(RedBlackTree.Node n){
+	public RedBlackTree.Node getAunt(RedBlackTree.Node n) {
 		//
 	}
 	
-	public RedBlackTree.Node getGrandparent(RedBlackTree.Node n){
+	public RedBlackTree.Node getGrandparent(RedBlackTree.Node n) {
 		return n.parent.parent;
 	}
 	
-	public void rotateLeft(RedBlackTree.Node n){
+	public void rotateLeft(RedBlackTree.Node n) {
 		//
 	}
 	
-	public void rotateRight(RedBlackTree.Node n){
+	public void rotateRight(RedBlackTree.Node n) {
 		//
 	}
 	
