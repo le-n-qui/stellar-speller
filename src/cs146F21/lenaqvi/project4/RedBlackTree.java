@@ -81,10 +81,12 @@ public class RedBlackTree {
 		if (root == null) {
 			root = newNode;
 			newNode.parent = null;
-		 	newNode.isRed = false;
-		 	newNode.color = 1;
+		 	newNode.isRed = true;
+		 	newNode.color = 0;
 		}
 		else {
+			// if root is not null
+			// we want new node to be red originally
 			newNode.color = 0;
 		 	newNode.isRed = true;
 			// Have current node point at the root node
@@ -98,9 +100,10 @@ public class RedBlackTree {
 						newNode.parent = currNode;
 						break;
 					}
-		 			else
+		 			else {
 		 				// Proceed to the right subtree
 		 				currNode = currNode.rightChild;
+		 			}
 				}
 				// if value of new node is less than that of current node
 				else if (newNode.compareTo(currNode) < 0) {
@@ -109,9 +112,10 @@ public class RedBlackTree {
 						newNode.parent = currNode;
 						break;
 					}
-					else
+					else {
 						// Proceed to the left subtree
 						currNode = currNode.leftChild;
+					}
 				}
 				// if value of new node is similar to that of current node
 				//else {
@@ -122,10 +126,21 @@ public class RedBlackTree {
 		}
 	}	
 
+	/**
+	 * insert method calls addNode method
+	 * to add new node to the Red Black tree.
+	 * @param data
+	 */
 	public void insert(String data){
 		addNode(data);	
 	}
 	
+	/**
+	 * lookup method searches for 
+	 * the node with desired string key, k.
+	 * @param k
+	 * @return reference to the node with string k.
+	 */
 	public RedBlackTree.Node lookup(String k){ 
 		//fill
 		RedBlackTree.Node currNode = root;
@@ -135,14 +150,14 @@ public class RedBlackTree {
 	    if (root == null)
 	      return null;
 
-	    //iterate while the current node isnt null
+	    //iterate while the current node isn't null
 	    while (currNode != null) {
-	      if (currNode.compareTo(targetNode) > 0) {
+	      if (targetNode.compareTo(currNode) > 0) {
 	    	 
 	    	  currNode = currNode.rightChild;
 	           
 	      }
-	      else if (currNode.compareTo(targetNode) < 0) {
+	      else if (targetNode.compareTo(currNode) < 0) {
 	        
 	          currNode = currNode.leftChild;
 	            
@@ -158,9 +173,18 @@ public class RedBlackTree {
 	}
  	
 	
-	//public RedBlackTree.Node getSibling(RedBlackTree.Node n){  
-		//
-	//}
+	/**
+	 * getSibling method retrieves the node
+	 * that is on the same level as the argument node, n. 
+	 * @param n
+	 * @return reference to the sibling node
+	 */
+	public RedBlackTree.Node getSibling(RedBlackTree.Node n){  
+		RedBlackTree.Node commonParent = n.parent;
+		if (commonParent.leftChild == n)
+			return commonParent.rightChild;
+		return n; // n is the sibling (also the left child of parent)
+	}
 	
 	
 	//public RedBlackTree.Node getAunt(RedBlackTree.Node n){
@@ -180,7 +204,12 @@ public class RedBlackTree {
 	}
 	
 	public void fixTree(RedBlackTree.Node current) {
-		//
+		// case 1
+		if (current == root)
+			root.color = 1;
+		else if (current.parent.color == 1) {}
+			// quit
+		else {}
 	}
 	
 	public boolean isEmpty(RedBlackTree.Node n){
