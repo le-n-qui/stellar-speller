@@ -134,6 +134,7 @@ class RBTTester {
 	    RedBlackTree.Node grandparent_B = rbt.getGrandparent(rbt.lookup("B"));
 	    assertNull(grandparent_B);
 	}
+	
 	@Test
 	void rotateLeftTest() {
 		RedBlackTree rbt = new RedBlackTree();
@@ -148,7 +149,25 @@ class RBTTester {
 		RedBlackTree.Node node_F = rbt.lookup("F");
 		assertEquals(node_F.parent.key, "I");
 		assertEquals(node_F.rightChild.key, "H");  
-  }
+    }
+	
+	
+	@Test
+	void rotateRightTest() {
+		RedBlackTree rbt = new RedBlackTree();
+		rbt.insert("I");
+		rbt.insert("K");
+		rbt.insert("G");
+		rbt.insert("H");
+		rbt.insert("D");
+		rbt.insert("E");
+		rbt.insert("F");
+		rbt.rotateRight(rbt.lookup("G"));
+		RedBlackTree.Node node_G = rbt.lookup("G");
+		assertEquals(node_G.parent.key, "D");
+		assertEquals(node_G.leftChild.key, "E");  
+    }
+	
 	//add tester for spell checker
     
     public static String makeString(RedBlackTree t) {
