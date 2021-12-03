@@ -32,8 +32,6 @@ public class RedBlackTree {
 	  	}
 	  	
 	  	public String getKey() {
-	  		if (this == null)
-	  			return "";
 	  		return key;
 	  	}
 	}
@@ -180,10 +178,18 @@ public class RedBlackTree {
 	 * @return reference to the sibling node
 	 */
 	public RedBlackTree.Node getSibling(RedBlackTree.Node n){  
-		RedBlackTree.Node commonParent = n.parent;
-		if (commonParent.leftChild == n)
-			return commonParent.rightChild;
-		return n; // n is the sibling (also the left child of parent)
+		RedBlackTree.Node sibling = null;
+		if (n.parent == null)
+			return null;
+
+		if(isLeftChild(n.parent, n)) {
+		    sibling = n.parent.rightChild;
+		}
+		else {
+		    sibling = n.parent.leftChild;
+		}
+		
+		return sibling;
 	}
 	
 	
@@ -196,11 +202,19 @@ public class RedBlackTree {
 	}
 	
 	public void rotateLeft(RedBlackTree.Node n){
-		//
+		RedBlackTree.Node tempNode = n.leftChild;
+		RedBlackTree.Node originalParent = n.parent;
+		n.parent = originalParent.parent;
+		n.leftChild = originalParent;
+		originalParent.rightChild = tempNode;
 	}
 	
 	public void rotateRight(RedBlackTree.Node n){
-		//
+		RedBlackTree.Node tempNode = n.rightChild;
+		RedBlackTree.Node originalParent = n.parent;
+		n.parent = originalParent.parent;
+		n.rightChild = originalParent;
+		originalParent.leftChild = tempNode;
 	}
 	
 	public void fixTree(RedBlackTree.Node current) {
