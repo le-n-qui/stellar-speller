@@ -193,9 +193,9 @@ public class RedBlackTree {
 	}
 	
 	
-	//public RedBlackTree.Node getAunt(RedBlackTree.Node n){
-		//
-	//}
+	public RedBlackTree.Node getAunt(RedBlackTree.Node n){
+		return getSibling(n.parent);
+	}
 	
 	public RedBlackTree.Node getGrandparent(RedBlackTree.Node n){
 		return n.parent.parent;
