@@ -139,16 +139,15 @@ class RBTTester {
 		RedBlackTree rbt = new RedBlackTree();
 		rbt.insert("D");
 		rbt.insert("B");
-		rbt.insert("A");
-		rbt.insert("C");
 		rbt.insert("F");
 		rbt.insert("E");
+		rbt.insert("I");
 		rbt.insert("H");
 		rbt.insert("G");
-		rbt.insert("I");
-		rbt.insert("J");
-
-  
+		rbt.rotateLeft(rbt.lookup("F"));
+		RedBlackTree.Node node_F = rbt.lookup("F");
+		assertEquals(node_F.parent.key, "I");
+		assertEquals(node_F.rightChild.key, "H");  
   }
 	//add tester for spell checker
     
