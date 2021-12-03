@@ -220,11 +220,17 @@ public class RedBlackTree {
 	}
 	
 	public void rotateRight(RedBlackTree.Node n){
-		RedBlackTree.Node tempNode = n.rightChild;
-		RedBlackTree.Node originalParent = n.parent;
-		n.parent = originalParent.parent;
-		n.rightChild = originalParent;
-		originalParent.leftChild = tempNode;
+		RedBlackTree.Node tempLeftChild = n.leftChild;
+	    RedBlackTree.Node tempParent = n.parent;
+
+	    n.leftChild = tempLeftChild.rightChild;
+
+	    if (tempLeftChild.rightChild != null)
+	      tempLeftChild.rightChild.parent = n;
+
+	    tempLeftChild.rightChild = n;
+	    tempParent.leftChild = tempLeftChild;
+	    tempLeftChild.parent = tempParent; 
 	}
 	
 	public void fixTree(RedBlackTree.Node current) {
