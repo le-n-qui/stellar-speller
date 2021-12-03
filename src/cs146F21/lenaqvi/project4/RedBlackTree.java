@@ -214,6 +214,7 @@ public class RedBlackTree {
 		}
 	    // Let left subtree of tempRightChild reference n
 	    tempRightChild.leftChild = n;
+	    // Change parent of n to be tempRightChild
 	    n.parent = tempRightChild;
 	    // Let right subtree of parent node of n reference tempRightChild
 	    tempParent.rightChild = tempRightChild; 
@@ -222,16 +223,24 @@ public class RedBlackTree {
 	}
 	
 	public void rotateRight(RedBlackTree.Node n){
+		// Let a node reference left child of n
 		RedBlackTree.Node tempLeftChild = n.leftChild;
+		// Let a node reference parent of n
 	    RedBlackTree.Node tempParent = n.parent;
-
+	    // Let left child of n be right child of tempLeftChild 
 	    n.leftChild = tempLeftChild.rightChild;
-
-	    if (tempLeftChild.rightChild != null)
-	      tempLeftChild.rightChild.parent = n;
-
+	    // Verify that right child of tempLeftChild is not null
+	    if (tempLeftChild.rightChild != null) {
+	    	// Chance its parent to be n
+	    	tempLeftChild.rightChild.parent = n; 
+	    }
+	    // Let right child of tempLeftChild reference n
 	    tempLeftChild.rightChild = n;
+	    // Change parent of n to be tempLeftChild
+	    n.parent = tempLeftChild;
+	    // Let leftChild of tempParent reference tempLeftChild
 	    tempParent.leftChild = tempLeftChild;
+	    // Change parent of tempLeftChild to be tempParent
 	    tempLeftChild.parent = tempParent; 
 	}
 	
