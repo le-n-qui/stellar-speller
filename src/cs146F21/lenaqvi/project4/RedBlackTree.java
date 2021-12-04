@@ -122,6 +122,7 @@ public class RedBlackTree {
 				//}
 			}
 		}
+		fixTree(newNode);
 	}	
 
 	/**
@@ -231,26 +232,82 @@ public class RedBlackTree {
 	    n.leftChild = tempLeftChild.rightChild;
 	    // Verify that right child of tempLeftChild is not null
 	    if (tempLeftChild.rightChild != null) {
-	    	// Chance its parent to be n
+	    	// Change its parent to be n
 	    	tempLeftChild.rightChild.parent = n; 
 	    }
 	    // Let right child of tempLeftChild reference n
 	    tempLeftChild.rightChild = n;
-	    // Change parent of n to be tempLeftChild
-	    n.parent = tempLeftChild;
-	    // Let leftChild of tempParent reference tempLeftChild
-	    tempParent.leftChild = tempLeftChild;
+	    
+	    if (tempParent != null) {
+	    	// Change parent of n to be tempLeftChild
+	    	n.parent = tempLeftChild;
+	
+	    	// Let leftChild of tempParent reference tempLeftChild
+	    	tempParent.leftChild = tempLeftChild;
+	    }
 	    // Change parent of tempLeftChild to be tempParent
 	    tempLeftChild.parent = tempParent; 
 	}
 	
 	public void fixTree(RedBlackTree.Node current) {
+		  // case 1
 		// case 1
-		if (current == root)
-			root.color = 1;
-		else if (current.parent.color == 1) {}
-			// quit
-		else {}
+		if (current == root) {
+			current.color = 1;
+			current.isRed = false;
+			return;
+		}
+		if (current.parent.color == 1) {
+			return;
+		}
+
+		if (current.isRed == true && current.parent.isRed == true && getGrandparent(current) != null) {
+
+
+			if (getAunt(current) == null || getAunt(current).color == 1)
+			{
+
+
+				if (getGrandparent(current).leftChild == current.parent && current == current.parent.rightChild) {
+					rotateLeft(current.parent);
+					RedBlackTree.Node originalParent = current.parent;
+					fixTree(originalParent);
+				}
+				else if (getGrandparent(current).rightChild == current.parent && current == current.parent.leftChild) {
+					rotateRight(current.parent);
+					RedBlackTree.Node originalParent = current.parent;
+					fixTree(originalParent);
+				}
+				else if (getGrandparent(current).leftChild == current.parent && current == current.parent.leftChild) {
+					current.parent.color = 1;
+					current.parent.isRed = false;
+					getGrandparent(current).color = 0;
+					getGrandparent(current).isRed = true;
+					rotateRight(getGrandparent(current));
+					return;
+				}
+
+				else if (getGrandparent(current).rightChild == current.parent && current == current.parent.rightChild) {
+					current.parent.color = 1;
+					current.parent.isRed = false;
+					getGrandparent(current).color = 0;
+					getGrandparent(current).isRed = true;
+					rotateLeft(getGrandparent(current));
+					return;
+				}
+			}
+		}
+		else {
+			if (getAunt(current).isRed == true) {
+				current.parent.color = 1;
+				current.parent.isRed = false;
+				getAunt(current).color = 1;
+				getAunt(current).isRed = false;
+				getGrandparent(current).color = 0;
+				getGrandparent(current).isRed = true;
+				fixTree(getGrandparent(current));
+			}
+		}
 	}
 	
 	public boolean isEmpty(RedBlackTree.Node n){
