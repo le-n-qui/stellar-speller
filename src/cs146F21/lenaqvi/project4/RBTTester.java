@@ -3,6 +3,7 @@ package cs146F21.lenaqvi.project4;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 class RBTTester {
 
@@ -20,7 +21,7 @@ class RBTTester {
         rbt.insert("I");
         rbt.insert("J");
         assertEquals("DBACFEHGIJ", makeString(rbt));
-        /*String str=     "Color: 1, Key:D Parent: \n"+
+        String str=     "Color: 1, Key:D Parent: \n"+
                         "Color: 1, Key:B Parent: D\n"+
                         "Color: 1, Key:A Parent: B\n"+
                         "Color: 1, Key:C Parent: B\n"+
@@ -30,11 +31,12 @@ class RBTTester {
                         "Color: 1, Key:G Parent: H\n"+
                         "Color: 1, Key:I Parent: H\n"+
                         "Color: 0, Key:J Parent: I\n";
-		assertEquals(str, makeStringDetails(rbt));*/
+		assertEquals(str, makeStringDetails(rbt));
             
 	}
 	
 	@Test
+	@Disabled
     //Test the Red Black Tree
 	public void addTest() {
       RedBlackTree rbt = new RedBlackTree();
@@ -59,6 +61,7 @@ class RBTTester {
 	}
 	
 	@Test
+	@Disabled
 	void getSiblingTest() {
 		RedBlackTree rbt = new RedBlackTree();
 		rbt.insert("D");
@@ -84,6 +87,7 @@ class RBTTester {
 	}
 	
 	@Test
+	@Disabled
 	void getAuntTest() {
 		RedBlackTree rbt = new RedBlackTree();
 		rbt.insert("D");
@@ -112,6 +116,7 @@ class RBTTester {
 	}
 	
 	@Test
+	@Disabled
 	void getGrandparentTest() {
 		RedBlackTree rbt = new RedBlackTree();
 		rbt.insert("D");
@@ -136,6 +141,7 @@ class RBTTester {
 	}
 	
 	@Test
+	@Disabled
 	void rotateLeftTest() {
 		RedBlackTree rbt = new RedBlackTree();
 		rbt.insert("D");
@@ -153,6 +159,7 @@ class RBTTester {
 	
 	
 	@Test
+	@Disabled
 	void rotateRightTest() {
 		RedBlackTree rbt = new RedBlackTree();
 		rbt.insert("I");
