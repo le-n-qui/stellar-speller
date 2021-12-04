@@ -215,10 +215,14 @@ public class RedBlackTree {
 		}
 	    // Let left subtree of tempRightChild reference n
 	    tempRightChild.leftChild = n;
-	    // Change parent of n to be tempRightChild
-	    n.parent = tempRightChild;
-	    // Let right subtree of parent node of n reference tempRightChild
-	    tempParent.rightChild = tempRightChild; 
+	    
+	    if (tempParent != null) {
+	    	// Change parent of n to be tempRightChild
+	    	n.parent = tempRightChild;
+	    	// Let right subtree of parent node of n reference tempRightChild
+	    	tempParent.rightChild = tempRightChild; 
+	    }
+	    
 	    // Update tempRightChild parent with parent node of n
 	    tempRightChild.parent = tempParent;
 	}
@@ -250,64 +254,71 @@ public class RedBlackTree {
 	}
 	
 	public void fixTree(RedBlackTree.Node current) {
-		  // case 1
+		 
 		// case 1
 		if (current == root) {
 			current.color = 1;
 			current.isRed = false;
 			return;
 		}
+		// case 2
 		if (current.parent.color == 1) {
 			return;
 		}
-
-		if (current.isRed == true && current.parent.isRed == true && getGrandparent(current) != null) {
-
-
-			if (getAunt(current) == null || getAunt(current).color == 1)
+		// case 3
+		RedBlackTree.Node gran = getGrandparent(current);
+		
+		if (current.isRed == true && current.parent.isRed == true && gran != null) 
+		{
+			
+			RedBlackTree.Node aunt = getAunt(current);
+			
+			if (aunt == null || aunt.color == 1)
 			{
 
 
-				if (getGrandparent(current).leftChild == current.parent && current == current.parent.rightChild) {
+				if (gran.leftChild == current.parent && current == current.parent.rightChild) {
+					
 					rotateLeft(current.parent);
-					RedBlackTree.Node originalParent = current.parent;
+					RedBlackTree.Node originalParent = current.leftChild;
 					fixTree(originalParent);
 				}
-				else if (getGrandparent(current).rightChild == current.parent && current == current.parent.leftChild) {
+				else if (gran.rightChild == current.parent && current == current.parent.leftChild) {
 					rotateRight(current.parent);
-					RedBlackTree.Node originalParent = current.parent;
+					RedBlackTree.Node originalParent = current.rightChild;
 					fixTree(originalParent);
 				}
-				else if (getGrandparent(current).leftChild == current.parent && current == current.parent.leftChild) {
+				else if (gran.leftChild == current.parent && current == current.parent.leftChild) {
 					current.parent.color = 1;
 					current.parent.isRed = false;
-					getGrandparent(current).color = 0;
-					getGrandparent(current).isRed = true;
-					rotateRight(getGrandparent(current));
+					gran.color = 0;
+					gran.isRed = true;
+					rotateRight(gran);
 					return;
 				}
 
-				else if (getGrandparent(current).rightChild == current.parent && current == current.parent.rightChild) {
+				else if (gran.rightChild == current.parent && current == current.parent.rightChild) {
 					current.parent.color = 1;
 					current.parent.isRed = false;
-					getGrandparent(current).color = 0;
-					getGrandparent(current).isRed = true;
-					rotateLeft(getGrandparent(current));
+					gran.color = 0;
+					gran.isRed = true;
+					rotateLeft(gran);
 					return;
 				}
 			}
-		}
-		else {
-			if (getAunt(current).isRed == true) {
-				current.parent.color = 1;
-				current.parent.isRed = false;
-				getAunt(current).color = 1;
-				getAunt(current).isRed = false;
-				getGrandparent(current).color = 0;
-				getGrandparent(current).isRed = true;
-				fixTree(getGrandparent(current));
+			else {
+				if (aunt.isRed == true) {
+					current.parent.color = 1;
+					current.parent.isRed = false;
+					aunt.color = 1;
+					aunt.isRed = false;
+					gran.color = 0;
+					gran.isRed = true;
+					fixTree(gran);
+				}
 			}
 		}
+		
 	}
 	
 	public boolean isEmpty(RedBlackTree.Node n){
