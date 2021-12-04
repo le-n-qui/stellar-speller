@@ -21,7 +21,7 @@ class RBTTester {
         rbt.insert("I");
         rbt.insert("J");
         assertEquals("DBACFEHGIJ", makeString(rbt));
-        String str=     "Color: 1, Key:D Parent: \n"+
+        String str =    "Color: 1, Key:D Parent: \n"+
                         "Color: 1, Key:B Parent: D\n"+
                         "Color: 1, Key:A Parent: B\n"+
                         "Color: 1, Key:C Parent: B\n"+
@@ -34,6 +34,23 @@ class RBTTester {
 		assertEquals(str, makeStringDetails(rbt));
             
 	}
+	
+	@Test
+	void testFixTree() {
+		RedBlackTree rbt = new RedBlackTree();
+		rbt.insert("D");
+		rbt.insert("B");
+		rbt.insert("F");
+		rbt.insert("E");
+		assertEquals("DBFE", makeString(rbt));
+		
+		String info = "Color: 1, Key:D Parent: \n"+
+					  "Color: 1, Key:B Parent: D\n"+
+					  "Color: 1, Key:F Parent: D\n"+
+					  "Color: 0, Key:E Parent: F\n";
+	    assertEquals(info, makeStringDetails(rbt));
+	}
+	
 	
 	@Test
 	@Disabled
