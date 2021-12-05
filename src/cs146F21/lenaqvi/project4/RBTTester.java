@@ -1,6 +1,10 @@
 package cs146F21.lenaqvi.project4;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 
 import org.junit.jupiter.api.Test;
 
@@ -152,6 +156,24 @@ class RBTTester {
 		RedBlackTree.Node node_F = rbt.lookup("F");
 		assertEquals(node_F.parent.key, "E");
 		assertEquals(node_F.rightChild.key, "H");
+	}
+
+	public RedBlackTree makeRBTdictionary() throws IOException{
+
+		RedBlackTree rbt = new RedBlackTree();
+		FileReader fr = new FileReader("dictionary.txt");
+		BufferedReader br = new BufferedReader(fr);
+
+		String line = br.readLine();
+
+		while (line != null) {
+			rbt.insert(line);
+			line = br.readLine();
+		}
+		br.close();
+		fr.close();
+
+		return rbt;
 	}
 	
 	//add tester for spell checker
