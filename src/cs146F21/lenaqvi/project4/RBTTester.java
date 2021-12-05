@@ -2,12 +2,19 @@ package cs146F21.lenaqvi.project4;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.File;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
 
 class RBTTester {
 
 	@Test
+	@Disabled
 	void test() {
 		RedBlackTree rbt = new RedBlackTree();
         rbt.insert("D");
@@ -36,6 +43,7 @@ class RBTTester {
 	}
 	
 	@Test
+	@Disabled
 	void testFixTree() {
 		RedBlackTree rbt = new RedBlackTree();
 		rbt.insert("D");
@@ -192,6 +200,74 @@ class RBTTester {
 		assertEquals(node_G.leftChild.key, "E");  
     }
 	
+	
+	public RedBlackTree makeRBTdictionary() throws IOException{
+
+		RedBlackTree rbt = new RedBlackTree();
+		FileReader fr = new FileReader("dictionary.txt");
+		BufferedReader br = new BufferedReader(fr);
+
+		String line = br.readLine();
+
+		while (line != null) {
+			rbt.insert(line);
+			line = br.readLine();
+		}
+		br.close();
+		fr.close();
+
+		return rbt;
+	}
+	
+	public ArrayList<String> readPoem() throws IOException {
+		FileReader read = new FileReader("message.txt");
+		//FileWriter out = new FileWriter(new File("poem_words.txt"));
+		BufferedReader bRead = new BufferedReader(read);
+		
+		String line = bRead.readLine();
+		String[] tokens;
+		ArrayList<String> words = new ArrayList<String>();
+		
+		while (line != null) {
+			tokens = line.split(" "); // ["a", "aa"]
+			for (int i = 0; i < tokens.length; i++) {
+				tokens[i] = tokens[i].toLowerCase().replaceAll("[^a-zA-Z]", "");
+				words.add(tokens[i]);
+			}
+			
+			line = bRead.readLine();
+;		}
+		
+		bRead.close();
+		read.close();
+		
+		return words;
+	}
+	
+	@Test
+	public void testSpeller() {
+		try {
+			RedBlackTree dictionary = makeRBTdictionary();
+			ArrayList<String> words = readPoem();
+			ArrayList<String> missingWords = new ArrayList<String>();
+			
+			for (String word : words) {
+				if (dictionary.lookup(word) == null) {
+					missingWords.add(word);
+				}
+			}
+			
+			for (String w : missingWords) {
+				System.out.println(w + "\n");
+			}
+		}
+		catch (IOException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+		
+		
+		
+	}
 	//add tester for spell checker
     
     public static String makeString(RedBlackTree t) {
@@ -213,7 +289,9 @@ class RBTTester {
     	class MyVisitor implements RedBlackTree.Visitor {
     		String result = "";
     		public void visit(RedBlackTree.Node n) {
-    			if(!(n.key).equals(""))
+    			if (n.parent == null)
+    				result = result +"Color: "+n.color+", Key:"+n.key+" Parent: \n";
+    			else if(!(n.key).equals(""))
     				result = result +"Color: "+n.color+", Key:"+n.key+" Parent: "+n.parent.key+"\n";
              
     		}
