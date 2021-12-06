@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 import org.junit.jupiter.api.Test;
@@ -161,7 +162,7 @@ class RBTTester {
 	public RedBlackTree makeRBTdictionary() throws IOException{
 
 		RedBlackTree rbt = new RedBlackTree();
-		FileReader fr = new FileReader("dictionary.txt");
+		FileReader fr = new FileReader("stellar-speller/dictionary.txt");
 		BufferedReader br = new BufferedReader(fr);
 
 		String line = br.readLine();
@@ -175,8 +176,58 @@ class RBTTester {
 
 		return rbt;
 	}
+
+	public ArrayList<String> readPoem() throws IOException {
+		FileReader read = new FileReader("stellar-speller/message.txt");
+		//FileWriter out = new FileWriter(new File("poem_words.txt"));
+		BufferedReader bRead = new BufferedReader(read);
+
+		String line = bRead.readLine();
+		String[] tokens;
+		ArrayList<String> words = new ArrayList<String>();
+
+		while (line != null) {
+			tokens = line.split(" "); // ["a", "aa"]
+			for (int i = 0; i < tokens.length; i++) {
+				tokens[i] = tokens[i].toLowerCase().replaceAll("[^a-zA-Z]", "");
+				words.add(tokens[i]);
+			}
+
+			line = bRead.readLine();
+			;		}
+
+		bRead.close();
+		read.close();
+
+		return words;
+	}
+
+	@Test
+	public void testSpeller() {
+		try {
+			RedBlackTree dictionary = makeRBTdictionary();
+			ArrayList<String> words = readPoem();
+			ArrayList<String> missingWords = new ArrayList<String>();
+
+			for (String word : words) {
+				if (dictionary.lookup(word) == null) {
+					missingWords.add(word);
+				}
+			}
+
+			for (String w : missingWords) {
+				System.out.println(w + "\n");
+			}
+		}
+		catch (IOException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+
+
+
+	}
 	
-	//add tester for spell checker
+
     
     public static String makeString(RedBlackTree t) {
        
