@@ -205,7 +205,15 @@ class RBTTester {
 	@Test
 	public void testSpeller() {
 		try {
+
+			double startTime = System.nanoTime();
 			RedBlackTree dictionary = makeRBTdictionary();
+			double dictEndTime = System.nanoTime();
+			double dictLength  = dictEndTime - startTime;
+
+			double spellCheckStart = System.nanoTime();
+
+
 			ArrayList<String> words = readPoem();
 			ArrayList<String> missingWords = new ArrayList<String>();
 
@@ -214,10 +222,16 @@ class RBTTester {
 					missingWords.add(word);
 				}
 			}
+			double spellCheckEnd = System.nanoTime();
 
-			for (String w : missingWords) {
-				System.out.println(w + "\n");
-			}
+			double lookUpLength = spellCheckEnd - spellCheckStart;
+
+			System.out.println("Here is a list of all words in the poem not present in the dictionary." + "\n");
+			System.out.println(missingWords + "\n");
+
+			System.out.println("It took "+dictLength/1000000000+ " seconds to create the dictionary.");
+			System.out.println("It took "+lookUpLength/1000000000+ " seconds to execute the spell check.");
+
 		}
 		catch (IOException e) {
 			System.out.println("Error: " + e.getMessage());
