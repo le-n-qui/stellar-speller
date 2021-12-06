@@ -1,26 +1,15 @@
 package cs146F21.lenaqvi.project4;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+ * RedBlackTree class
+ * This class constructs a Red Black tree.
+ * @author Andy Qui Le and Mohammad Naqvi
+ */
 public class RedBlackTree {
+	// Root node of the RedBlackTree
 	private RedBlackTree.Node root;
 
-	public static void main(String[] args) {
-		RedBlackTree rbt = new RedBlackTree();
-		rbt.insert("D");
-		rbt.insert("B");
-		rbt.insert("A");
-		rbt.insert("C");
-		rbt.insert("F");
-		rbt.insert("E");
-		rbt.insert("H");
-		rbt.insert("G");
-		rbt.insert("I");
-		rbt.insert("J");
-		System.out.println(RBTTester.makeString(rbt));
-		System.out.println(RBTTester.makeStringDetails(rbt));
-
-	}
+	// Node class implementation
 	public class Node {
 
 		String key;
@@ -89,7 +78,11 @@ public class RedBlackTree {
 		printTree(node.rightChild);
 	}
 
-	// place a new node in the RB tree with data the parameter and color it red.
+	/**
+	 * addNode method inserts a new node 
+	 * into the RedBlackTree and color it red.
+	 * @param data
+	 */
 	public void addNode(String data) {
 
 		// Create a new RBTree node
@@ -113,9 +106,6 @@ public class RedBlackTree {
 			// Traverse and find the right location for new node
 			while (currNode != null) {
 				// if value of new node is greater than that of current node
-
-				// if value of new node is less than that of current node
-
 				if (newNode.compareTo(currNode) > 0) {
 					if (currNode.rightChild == null) {
 						newNode.parent = currNode;
@@ -127,6 +117,7 @@ public class RedBlackTree {
 					currNode = currNode.rightChild;
 
 				}
+				// if value of new node is less than that of current node
 				else if (newNode.compareTo(currNode) < 0) {
 					if (currNode.leftChild == null) {
 						newNode.parent = currNode;
@@ -137,13 +128,9 @@ public class RedBlackTree {
 					// Proceed to the left subtree
 					currNode = currNode.leftChild;
 				}
-				// if value of new node is similar to that of current node
-				//else {
-				// Place new node to the right of current node
-				//	currNode.rightChild = newNode;
-				//}
 			}
 		}
+		// Invoke fixTree on new node
 		fixTree(newNode);
 	}
 
@@ -163,15 +150,16 @@ public class RedBlackTree {
 	 * @return reference to the node with string k.
 	 */
 	public RedBlackTree.Node lookup(String k) {
-		//fill
+		// Let current node reference the root
 		RedBlackTree.Node currNode = root;
 
-		//creating target Nod with given data
+		// Create target node with given data
 		RedBlackTree.Node targetNode = new RedBlackTree.Node(k);
+		// If root is null
 		if (root == null)
 			return null;
 
-		//iterate while the current node isn't null
+		// Iterate while the current node isn't null
 		while (currNode != null) {
 			if (targetNode.compareTo(currNode) > 0) {
 
@@ -184,11 +172,9 @@ public class RedBlackTree {
 
 			}
 			else
-				// equal
+				// two nodes are equal
 				break;
 		}
-
-		//if (currNode == null)
 
 		return currNode;
 	}
@@ -212,44 +198,71 @@ public class RedBlackTree {
 		return null;
 	}
 
-
+	/**
+	 * getAunt method retrieves the
+	 * aunt node of the current node.
+	 * @param n current node
+	 * @return the aunt node
+	 */
 	public RedBlackTree.Node getAunt(RedBlackTree.Node n){
 		if (n.parent == null)
 			return null;
 		return getSibling(n.parent);
 	}
 
+	/**
+	 * getGrandparent method retrieves the
+	 * grandparent node of the current node.
+	 * @param n current node
+	 * @return the grandparent node
+	 */
 	public RedBlackTree.Node getGrandparent(RedBlackTree.Node n){
 		if (n.parent.parent == null)
 			return null;
 		return n.parent.parent;
 	}
-
+	
+	/**
+	 * rotateLeft method rotates the 
+	 * current node to the left.
+	 * @param n current node
+	 */
 	public void rotateLeft(RedBlackTree.Node n){
-		// Set a reference to the right subtree of n
+		// Set a reference to the right subtree of current node
 		RedBlackTree.Node tempRightChild = n.rightChild;
+		// right child of current node references left child of tempRightChild
 		n.rightChild = tempRightChild.leftChild;
-
+		// If left child of tempRightChild is not null
 		if (tempRightChild.leftChild != null) {
+			// change parent of left child of tempRightChild to be current node
 			tempRightChild.leftChild.parent = n;
 		}
-
+		// change parent of tempRightChild to be parent of current node
 		tempRightChild.parent = n.parent;
-
+		// if parent of current node is null
 		if (n.parent == null) {
+			// let root be tempRightChild
 			root = tempRightChild;
 		}
+		// if current node is left child
 		else if (n == n.parent.leftChild) {
+			// let left child of parent of current node reference tempRightChild
 			n.parent.leftChild = tempRightChild;
 		}
 		else {
 			n.parent.rightChild = tempRightChild;
 		}
-
+		// let left child of tempRightChild reference current node
 		tempRightChild.leftChild = n;
+		// Change parent of current node to be tempRightChild
 		n.parent = tempRightChild;
 	}
-
+	
+	/**
+	 * rotateRight method rotates the
+	 * current node to the right.
+	 * @param n current node
+	 */
 	public void rotateRight(RedBlackTree.Node n){
 		// Set a reference to the left subtree of n
 		RedBlackTree.Node tempLeftChild = n.leftChild;
@@ -275,37 +288,44 @@ public class RedBlackTree {
 		n.parent = tempLeftChild;
 	}
 
-
+	/**
+	 * fixTree method repairs an unbalanced
+	 * RedBlackTree and color nodes appropriately.
+	 * @param current current node
+	 */
 	public void fixTree(RedBlackTree.Node current) {
-		// case 1
+		
 		// case 1
 		if (current == root) {
 			current.color = 1;
 			current.isRed = false;
 			return;
 		}
+		// case 2
 		if (current.parent.color == 1) {
 			return;
 		}
-
+		// case 3
 		if (current.isRed == true && current.parent.isRed == true)
 		{
 
-
+			// when aunt node is null or black
 			if (getAunt(current) == null || getAunt(current).isRed == false)
 			{
 
-
+				// variation 1
 				if (getGrandparent(current).leftChild == current.parent && current == current.parent.rightChild) {
 					rotateLeft(current.parent);
 					RedBlackTree.Node originalParent = current.parent;
 					fixTree(originalParent);
 				}
+				// variation 2
 				else if (getGrandparent(current).rightChild == current.parent && current == current.parent.leftChild) {
 					rotateRight(current.parent);
 					RedBlackTree.Node originalParent = current.parent;
 					fixTree(originalParent);
 				}
+				// variation 3
 				else if (getGrandparent(current).leftChild == current.parent && current == current.parent.leftChild) {
 					current.parent.color = 1;
 					current.parent.isRed = false;
@@ -314,7 +334,7 @@ public class RedBlackTree {
 					rotateRight(getGrandparent(current));
 					return;
 				}
-
+				// variation 4
 				else if (getGrandparent(current).rightChild == current.parent && current == current.parent.rightChild) {
 					current.parent.color = 1;
 					current.parent.isRed = false;
@@ -324,7 +344,7 @@ public class RedBlackTree {
 					return;
 				}
 			}
-
+			// when aunt node is red
 			else {
 				if (getAunt(current).isRed == true) {
 					current.parent.color = 1;
@@ -340,7 +360,12 @@ public class RedBlackTree {
 	}
 
 
-
+	/**
+	 * isEmpty method verifies whether
+	 * the key of node is null or not.
+	 * @param n
+	 * @return
+	 */
 	public boolean isEmpty(RedBlackTree.Node n){
 		if (n.key == null){
 			return true;
@@ -348,6 +373,13 @@ public class RedBlackTree {
 		return false;
 	}
 
+	/**
+	 * isLeftChild method verifies whether
+	 * the child node is a left child of the parent node.
+	 * @param parent
+	 * @param child
+	 * @return
+	 */
 	public boolean isLeftChild(RedBlackTree.Node parent, RedBlackTree.Node child)
 	{
 		if (child.compareTo(parent) < 0 ) {//child is less than parent
@@ -356,11 +388,22 @@ public class RedBlackTree {
 		return false;
 	}
 
+	/**
+	 * preOrderVisit method invokes
+	 * a private method to traverse
+	 * the tree in preorder fashion.
+	 * @param v
+	 */
 	public void preOrderVisit(Visitor v) {
 		preOrderVisit(root, v);
 	}
 
-
+	/**
+	 * preOrderVisit method recursively
+	 * traverses the tree in preorder fashion.
+	 * @param n current node
+	 * @param v
+	 */
 	private static void preOrderVisit(RedBlackTree.Node n, Visitor v) {
 		if (n == null) {
 			return;
